@@ -1,3 +1,4 @@
+// mongoose.set('strictQuery', false);
 const mongoose = require('mongoose');
 const port = 3000;
 
@@ -17,7 +18,7 @@ const newRecipe = new Recipe({
   image: "https://images.media-allrecipes.com/images/75131.jpg" ,
   duration: 20,
   creator: 'Hola que pacha',
-  created: new Date
+  created: new Date()
 });
 
 // Connection to the database "recipe-app"
@@ -127,9 +128,13 @@ mongoose
     "creator": "Chef Jennifer"
   }
 ]))
-  .then(() => Recipe.findByIdAndUpdate('656f14bf253d6090b0587e6b', { time: 100}, {new: true}))
-  .then(foundRecipe => console.log("foundRecipe", foundRecipe))
-  .then(allRecipes => console.log("allRecipes", newRecipe.title))
+  .then(() => Recipe.findByIdAndUpdate('656f14bf253d6090b0587e6b', { duration: 100}, {new: true}))
+  .then(foundRecipe => {
+    console.log("foundRecipe", foundRecipe);
+
+    return Recipe.find();
+  })
+  .then(allRecipes => console.log("allRecipes", allRecipes))
   .then(() => Recipe.findByIdAndDelete('656f192c6cc131e0d5a0a43c'))
   // .then(()=> User.insertMany
   .then(()=> mongoose.connection.close())
